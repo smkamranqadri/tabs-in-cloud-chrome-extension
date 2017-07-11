@@ -1,0 +1,256 @@
+body {
+  padding: 5px;
+  min-width: 300px;
+  background-color: #A5AAAE;
+}
+
+.card {
+  background: #FFFFFF;
+  max-width: 400px;
+  /*margin: 50px auto;*/
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  box-sizing: border-box;
+  padding: 10px;
+  text-align: center;
+}
+
+.account {
+  position: relative;
+  font-size: 20px;
+  color: #818181;
+}
+
+.content-bottom {
+  margin: 10px auto;
+  width: 100%;
+  border-top: 1px solid #eaeaea;
+  background-color: #fcfcfc;
+}
+
+.content-bottom ul {
+  display: block;
+  position: relative;
+  list-style-type: none;
+  -webkit-margin-before: 0px;
+  -webkit-margin-after: 0px;
+  -webkit-margin-start: 0px;
+  -webkit-margin-end: 0px;
+  -webkit-padding-start: 0px;
+}
+
+.content-bottom ul li {
+  position: relative;
+  list-style: none;
+  border-bottom: 1px solid #eaeaea;
+  background-color: trasparent;
+  padding: 10px;
+  font-size: 14px;
+}
+
+.content-bottom ul li:hover {
+  cursor: pointer;
+  background: #f0f0f0;
+}
+
+.group {
+  position: relative;
+}
+
+input {
+  font-size: 18px;
+  padding: 10px 10px 10px 5px;
+  display: block;
+  width: 300px;
+  border: none;
+  border-bottom: 1px solid #757575;
+}
+
+input:focus {
+  outline: none;
+}
+
+
+/* LABEL ======================================= */
+
+label {
+  color: #999;
+  font-size: 12px;
+  font-weight: normal;
+  position: absolute;
+  pointer-events: none;
+  left: 5px;
+  top: 10px;
+  transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all;
+}
+
+
+/* active state */
+
+input:focus~label,
+input:valid~label {
+  top: -15px;
+  font-size: 10px;
+  color: #26A69A;
+}
+
+
+/* BOTTOM BARS ================================= */
+
+.bar {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+
+.bar:before,
+.bar:after {
+  content: '';
+  height: 2px;
+  width: 0;
+  bottom: 1px;
+  position: absolute;
+  background: #26A69A;
+  transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all;
+}
+
+.bar:before {
+  left: 50%;
+}
+
+.bar:after {
+  right: 50%;
+}
+
+
+/* active state */
+
+input:focus~.bar:before,
+input:focus~.bar:after {
+  width: 50%;
+}
+
+
+/* HIGHLIGHTER ================================== */
+
+.highlight {
+  position: absolute;
+  height: 60%;
+  width: 100px;
+  top: 25%;
+  left: 0;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+
+/* active state */
+
+input:focus~.highlight {
+  -webkit-animation: inputHighlighter 0.3s ease;
+  -moz-animation: inputHighlighter 0.3s ease;
+  animation: inputHighlighter 0.3s ease;
+}
+
+
+/* ANIMATIONS ================ */
+
+@-webkit-keyframes inputHighlighter {
+  from {
+    background: #5264AE;
+  }
+  to {
+    width: 0;
+    background: transparent;
+  }
+}
+
+@-moz-keyframes inputHighlighter {
+  from {
+    background: #5264AE;
+  }
+  to {
+    width: 0;
+    background: transparent;
+  }
+}
+
+@keyframes inputHighlighter {
+  from {
+    background: #5264AE;
+  }
+  to {
+    width: 0;
+    background: transparent;
+  }
+}
+
+.flexEnd {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 10px;
+}
+
+.btn {
+  position: relative;
+  display: block;
+  padding: 0;
+  overflow: hidden;
+  border-width: 0;
+  outline: none;
+  border-radius: 2px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
+  background-color: #009688;
+  color: #ecf0f1;
+  transition: background-color .3s;
+}
+
+.btn:hover,
+.btn:focus {
+  background-color: #26A69A;
+}
+
+.btn>* {
+  position: relative;
+}
+
+.btn span {
+  display: block;
+  padding: 12px 24px;
+}
+
+.btn:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: block;
+  width: 0;
+  padding-top: 0;
+  border-radius: 100%;
+  background-color: rgba(236, 240, 241, .3);
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.btn:active:before {
+  width: 120%;
+  padding-top: 120%;
+  transition: width .2s ease-out, padding-top .2s ease-out;
+}
+
+
+/* Styles, not important */
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}

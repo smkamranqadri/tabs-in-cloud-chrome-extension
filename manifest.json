@@ -1,0 +1,15 @@
+{
+  "manifest_version": 2,
+  "name": "Tabs In Cloud",
+  "description": "This extension will save your open tabs in cloud.",
+  "version": "1.0",
+  "browser_action": {
+    "default_title": "Tabs in Cloud",
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "tabs",
+    "storage"
+  ]
+}
