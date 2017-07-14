@@ -2,8 +2,15 @@ document.addEventListener('DOMContentLoaded', function () {
   var groups = [];
   chrome.storage.sync.get(['groups'], function (items) {
     if (!items.groups) return
-    groups = JSON.parse(items.groups);
-    updateList(groups);
+    for (var index = 1; index <= items.groups; index++) {
+      (function (index) {
+        chrome.storage.sync.get(['group' + index], function (items) {
+          if (!items['group' + index]) return
+          groups.push(JSON.parse(items['group' + index]));
+          updateList(groups);
+        });
+      })(index)
+    }
   });
   var saveButton = document.getElementById('save');
   var nameInput = document.getElementById('name');
@@ -15,23 +22,28 @@ document.addEventListener('DOMContentLoaded', function () {
       tabs = tabs.filter(function (tab) {
         return tab.url.indexOf('chrome://') === -1;
       });
+      if (!tabs.length > 0) return;
       var obj = {
         name: nameInput.value,
         tabs: tabs
       };
       groups.push(obj);
       updateList(groups);
-      console.log(groups)
-      chrome.storage.sync.set({ 'groups': JSON.stringify(groups) }, function () {
-        alert('Group saved');
-        nameInput.value = '';
+      chrome.storage.sync.set({ 'groups': JSON.stringify(groups.length) }, function (err) {
+        if (err) console.log('err', err);
+        let obj2 = {};
+        obj2['group' + groups.length] = JSON.stringify(obj);
+        chrome.storage.sync.set(obj2, function (err2) {
+          if (err2) console.log('err2', err2);
+          alert('Group saved');
+          nameInput.value = '';
+        });
       });
     });
   }, false);
 }, false);
 
 function updateList(groups) {
-  console.log('groups', groups);
   var groupsElement = document.getElementById("groups");
   while (groupsElement.hasChildNodes()) {
     groupsElement.removeChild(groupsElement.lastChild);
