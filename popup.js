@@ -2,10 +2,14 @@ document.addEventListener('DOMContentLoaded', function () {
   var groups = [];
   chrome.storage.sync.get(['groups'], function (items) {
     if (!items.groups) return
+    console.log('items.groups', items.groups)
     for (var index = 1; index <= items.groups; index++) {
       (function (index) {
+        console.log('index', 'group' + index)
         chrome.storage.sync.get(['group' + index], function (items) {
+          console.log('items', items)
           if (!items['group' + index]) return
+          // console.log('group', items['group' + index])
           groups.push(JSON.parse(items['group' + index]));
           updateList(groups);
         });
@@ -21,12 +25,16 @@ document.addEventListener('DOMContentLoaded', function () {
     }, function (tabs) {
       tabs = tabs.filter(function (tab) {
         return tab.url.indexOf('chrome://') === -1;
+      }).map(tab => {
+        return { url: tab.url };
       });
       if (!tabs.length > 0) return;
+      console.log('tabs', tabs)
       var obj = {
         name: nameInput.value,
         tabs: tabs
       };
+      console.log('obj', obj)
       groups.push(obj);
       updateList(groups);
       chrome.storage.sync.set({ 'groups': JSON.stringify(groups.length) }, function (err) {
@@ -44,6 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
 }, false);
 
 function updateList(groups) {
+  // console.log('groups', groups)
   var groupsElement = document.getElementById("groups");
   while (groupsElement.hasChildNodes()) {
     groupsElement.removeChild(groupsElement.lastChild);
