@@ -15,6 +15,52 @@ body {
   text-align: center;
 }
 
+.groupText {
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.delicon {
+  padding-right: 12px;
+  padding-left: 12px;
+}
+
+.ripple {
+  position: relative;
+  overflow: hidden;
+  transform: translate3d(0, 0, 0);
+}
+
+.ripple:after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle, #000 10%, transparent 10.01%);
+  background-repeat: no-repeat;
+  background-position: 50%;
+  transform: scale(10, 10);
+  opacity: 0;
+  transition: transform .5s, opacity 1s;
+}
+
+.ripple:active:after {
+  transform: scale(0, 0);
+  opacity: .2;
+  transition: 0s;
+}
+
+#groups {
+  max-height: 200px;
+  overflow-y: scroll;
+}
+
 .account {
   position: relative;
   font-size: 20px;
@@ -40,11 +86,12 @@ body {
 }
 
 .content-bottom ul li {
+  display: flex;
   position: relative;
   list-style: none;
   border-bottom: 1px solid #eaeaea;
   background-color: trasparent;
-  padding: 10px;
+  /* padding: 10px; */
   font-size: 14px;
 }
 
@@ -220,7 +267,7 @@ input:focus~.highlight {
 
 .btn span {
   display: block;
-  padding: 12px 24px;
+  padding: 5px 20px;
 }
 
 .btn:before {
