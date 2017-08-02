@@ -1,6 +1,6 @@
 body {
   padding: 5px;
-  min-width: 300px;
+  min-width: 400px;
   background-color: #A5AAAE;
 }
 
@@ -108,7 +108,7 @@ input {
   font-size: 18px;
   padding: 10px 10px 10px 5px;
   display: block;
-  width: 300px;
+  width: 100%;
   border: none;
   border-bottom: 1px solid #757575;
 }
@@ -242,6 +242,12 @@ input:focus~.highlight {
   padding-top: 10px;
 }
 
+.flexSpaceBetween {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 10px;
+}
+
 .btn {
   position: relative;
   display: block;
@@ -300,4 +306,11 @@ input:focus~.highlight {
 *:before,
 *:after {
   box-sizing: border-box;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  color: white;
+  margin-top: 10px;
 }

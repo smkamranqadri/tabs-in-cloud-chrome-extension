@@ -23,8 +23,20 @@
     </section>
     <form>
       <div class="group"><input type="text" id="name" required><span class="highlight"></span><span class="bar"></span><label>Name</label></div>
-      <div class="flexEnd"><button class="btn" type="button" id="save"><span>Save</span></button></div>
+      <div style="display: none">
+        <input type="file" id="fileInput">
+      </div>
+      <div class="flexSpaceBetween">
+        <button class="btn" type="button" id="import"><span>Import</span></button>
+        <button class="btn" type="button" id="export"><span>Export</span></button>
+        <button class="btn" type="button" id="save"><span>Save</span></button>
+      </div>
     </form>
+  </div>
+  <div class="footer">
+    <small>Powered by <a href="https://stackinnovations.io" target="_blank">Stack Innovations</a></small>
+    <small>Open Soure Project by <a href="https://github.com/smkamranqadri" target="_blank">Muhammad
+    Kamran</a></small>
   </div>
 </body>
 
