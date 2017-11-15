@@ -1,11 +1,19 @@
-var delIconSrc = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAABQUlEQVRoQ+1YQYrCUAxNrHvXdaNHcCmOBxAV9Ah6A48yN9AjODAFD2DBpUfQjd3q3hLpQnAQ/In9n+Lwum3yk/fy8j4t04c//OH9EwBUPUFM4F9NIBv2ZlSrLV+CElnFSTr3BdybhFTN37v2CEINIBv3xRdrmnPi362qN1VQURAANLQ/xGACRsIqC1fvQGUdOgqbAYReZq3277gAwLe0MAEXo9gBB0OQECTkYgAS+ssALrKSinlKhwu5GMVFBheCC4X9vQIXggu5GIALwYXgQi+3ADbqMpFs1D8TU8MV99Z7kWOcpG1LrvmD5jT6WjPzxFJEGysiP80knWrjizgzgGzQbVNU33ufgtCF8msn3uwOQQEUhxcgJIq+mahDzC1LwadYkaMQ7TnPF9bm35pAqWYDJJslFKCHUkcCQCn6PCTfAON2qzHz/DbaAAAAAElFTkSuQmCC';
+var delIconSrc = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAABQUlEQVRoQ+' +
+    '1YQYrCUAxNrHvXdaNHcCmOBxAV9Ah6A48yN9AjODAFD2DBpUfQjd3q3hLpQnAQ/In9n+Lwum3yk/fy8j' +
+    '4t04c//OH9EwBUPUFM4F9NIBv2ZlSrLV+CElnFSTr3BdybhFTN37v2CEINIBv3xRdrmnPi362qN1VQUR' +
+    'AANLQ/xGACRsIqC1fvQGUdOgqbAYReZq3277gAwLe0MAEXo9gBB0OQECTkYgAS+ssALrKSinlKhwu5GM' +
+    'VFBheCC4X9vQIXggu5GIALwYXgQi+3ADbqMpFs1D8TU8MV99Z7kWOcpG1LrvmD5jT6WjPzxFJEGysiP8' +
+    '0knWrjizgzgGzQbVNU33ufgtCF8msn3uwOQQEUhxcgJIq+mahDzC1LwadYkaMQ7TnPF9bm35pAqWYDJJ' +
+    'slFKCHUkcCQCn6PCTfAON2qzHz/DbaAAAAAElFTkSuQmCC';
 var status = document.getElementById('status');
+var nameInput;
 var groups = [];
-var savedFileEntry, fileDisplayPath;
+var savedFileEntry,
+  fileDisplayPath;
 
 document.addEventListener('DOMContentLoaded', function () {
   init();
-  var nameInput = document.getElementById('name');
+  nameInput = document.getElementById('name');
   var saveButton = document.getElementById('save');
   saveButton.addEventListener('click', setupSaveEvent, false);
   var exportButton = document.getElementById('export');
@@ -17,52 +25,75 @@ document.addEventListener('DOMContentLoaded', function () {
 }, false);
 
 function init() {
-  chrome.storage.sync.get(['groups'], function (items) {
-    if (!items.groups) return;
-    for (var index = 1; index <= items.groups; index++) {
-      (function (index) {
-        var groupIndex = ['group' + index];
-        chrome.storage.sync.get(groupIndex, function (items) {
-          if (!items[groupIndex]) return
-          var group = JSON.parse(items[groupIndex]);
-          groups.push(group);
-          updateList(group);
-        });
-      })(index);
-    }
-  });
+  chrome
+    .storage
+    .sync
+    .get(['groups'], function (items) {
+      if (!items.groups) 
+        return;
+      for (var index = 1; index <= items.groups; index++) {
+        (function (index) {
+          var groupIndex = ['group' + index];
+          chrome
+            .storage
+            .sync
+            .get(groupIndex, function (items) {
+              if (!items[groupIndex]) 
+                return
+              var group = JSON.parse(items[groupIndex]);
+              groups.push(group);
+              updateList(group);
+            });
+        })(index);
+      }
+    });
 }
 
 function setupSaveEvent() {
-  chrome.tabs.query({
-    currentWindow: true,
-    pinned: false
-  }, function (tabs) {
-    tabs = tabs.filter(function (tab) {
-      return tab.url.indexOf('chrome://') === -1;
-    }).map(tab => {
-      return { url: tab.url };
-    });
-    if (!tabs.length > 0) return;
-    var groupIndex = 'group' + (groups.length + 1);
-    var obj = {
-      index: groupIndex,
-      name: nameInput.value,
-      tabs: tabs
-    };
-    groups.push(obj);
-    updateList(obj);
-    chrome.storage.sync.set({ 'groups': JSON.stringify(groups.length) }, function (err) {
-      if (err) return console.log('err', err);
-      let obj2 = {};
-      obj2[groupIndex] = JSON.stringify(obj);
-      chrome.storage.sync.set(obj2, function (err2) {
-        if (err2) return console.log('err2', err2);
-        alert('Group saved');
-        nameInput.value = '';
+  chrome
+    .tabs
+    .query({
+      currentWindow: true,
+      pinned: false
+    }, function (tabs) {
+      tabs = tabs.filter(function (tab) {
+        return tab
+          .url
+          .indexOf('chrome://') === -1;
+      }).map(tab => {
+        return {url: tab.url};
       });
+      if (!tabs.length > 0) 
+        return;
+      var groupIndex = 'group' + (groups.length + 1);
+      var obj = {
+        index: groupIndex,
+        name: nameInput.value,
+        tabs: tabs
+      };
+      groups.push(obj);
+      updateList(obj);
+      chrome
+        .storage
+        .sync
+        .set({
+          'groups': JSON.stringify(groups.length)
+        }, function (err) {
+          if (err) 
+            return console.log('err', err);
+          let obj2 = {};
+          obj2[groupIndex] = JSON.stringify(obj);
+          chrome
+            .storage
+            .sync
+            .set(obj2, function (err2) {
+              if (err2) 
+                return console.log('err2', err2);
+              alert('Group saved');
+              nameInput.value = '';
+            });
+        });
     });
-  });
 }
 
 function updateList(group) {
@@ -94,8 +125,7 @@ function download(filename, text) {
     var event = document.createEvent('MouseEvents');
     event.initEvent('click', true, true);
     pom.dispatchEvent(event);
-  }
-  else {
+  } else {
     pom.click();
   }
 }
@@ -107,9 +137,11 @@ function setupExportEvent() {
 function clearFileInput(ctrl) {
   try {
     ctrl.value = null;
-  } catch (ex) { }
+  } catch (ex) {}
   if (ctrl.value) {
-    ctrl.parentNode.replaceChild(ctrl.cloneNode(true), ctrl);
+    ctrl
+      .parentNode
+      .replaceChild(ctrl.cloneNode(true), ctrl);
   }
 }
 
@@ -125,19 +157,29 @@ function upload(e) {
       };
       groups.push(obj);
       updateList(obj);
-      chrome.storage.sync.set({ 'groups': JSON.stringify(groups.length) }, function (err) {
-        if (err) return console.log('err', err);
-        let obj2 = {};
-        obj2[groupIndex] = JSON.stringify(obj);
-        chrome.storage.sync.set(obj2, function (err2) {
-          if (err2) return console.log('err2', err2);
-          if (contents.length === (index + 1)) {
-            alert('Import Successful!');
-            var fileInput = document.getElementById('fileInput');
-            clearFileInput(fileInput);
-          }
+      chrome
+        .storage
+        .sync
+        .set({
+          'groups': JSON.stringify(groups.length)
+        }, function (err) {
+          if (err) 
+            return console.log('err', err);
+          let obj2 = {};
+          obj2[groupIndex] = JSON.stringify(obj);
+          chrome
+            .storage
+            .sync
+            .set(obj2, function (err2) {
+              if (err2) 
+                return console.log('err2', err2);
+              if (contents.length === (index + 1)) {
+                alert('Import Successful!');
+                var fileInput = document.getElementById('fileInput');
+                clearFileInput(fileInput);
+              }
+            });
         });
-      });
     })(index);
   }
 }
@@ -145,7 +187,8 @@ function upload(e) {
 function setupFileSelectEvent(evt) {
   var file = evt.target.files[0];
   console.log('file', file);
-  if (!file) return
+  if (!file) 
+    return
   var reader = new FileReader();
   reader.onload = upload;
   reader.readAsText(file);
@@ -158,26 +201,33 @@ function setupImportEvent(evt) {
 
 function setupClickEvent(element, data) {
   (function (data) {
-    element.addEventListener('click', function () {
-      data.tabs.forEach(function (tab, index) {
-        chrome.tabs.create({
-          url: tab.url,
-          active: false,
-        });
-      })
-    }, false);
+    element
+      .addEventListener('click', function () {
+        data
+          .tabs
+          .forEach(function (tab, index) {
+            chrome
+              .tabs
+              .create({url: tab.url, active: false});
+          })
+      }, false);
   })(data);
 }
 
 function setupDeleteEvent(parent, element, data) {
   (function (parent, data) {
-    element.addEventListener('click', function (event) {
-      event.stopPropagation();
-      chrome.storage.sync.remove(data.index, function (err) {
-        if (err) return console.log('err', err);
-        alert('Group Removed');
-        parent.remove();
-      });
-    }, false);
+    element
+      .addEventListener('click', function (event) {
+        event.stopPropagation();
+        chrome
+          .storage
+          .sync
+          .remove(data.index, function (err) {
+            if (err) 
+              return console.log('err', err);
+            alert('Group Removed');
+            parent.remove();
+          });
+      }, false);
   })(parent, data);
 }
